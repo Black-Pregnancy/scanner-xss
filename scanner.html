@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة فحص الثغرات الأمنية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .vulnerability-card {
+            transition: all 0.3s ease;
+        }
+        .vulnerability-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-blue-600 text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="https://placehold.co/50x50" alt="درع أمني رمادي وأزرق مع أيقونة قفل في المنتصف" class="h-12 w-12 mr-3">
+                    <h1 class="text-2xl md:text-3xl font-bold">أداة فحص الثغرات الأمنية</h1>
+                </div>
+                <nav>
+                    <ul class="flex space-x-1 md:space-x-4 space-x-reverse">
+                        <li><button onclick="openTab(event, 'sql')" class="tab-btn px-4 py-2 rounded-lg bg-blue-700 text-white">SQL Injection</button></li>
+                        <li><button onclick="openTab(event, 'xss')" class="tab-btn px-4 py-2 rounded-lg hover:bg-blue-500">XSS</button></li>
+                        <li><button onclick="openTab(event, 'about')" class="tab-btn px-4 py-2 rounded-lg hover:bg-blue-500">حول الأداة</button></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- SQL Injection Tab -->
+        <div id="sql" class="tab-content active">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8 vulnerability-card">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2">
+                        <img src="https://placehold.co/600x400" alt="شاشة قاعدة بيانات مع علامة تحذير حمراء تظهر ثغرة أمنية" class="w-full h-auto rounded-lg">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">فحص ثغرة SQL Injection</h2>
+                        <p class="text-gray-600 mb-4">ثغرة حقن SQL تسمح للمهاجمين بحقن أوامر SQL خبيثة في استعلامات قاعدة البيانات. يمكن أن تؤدي هذه الثغرة إلى سرقة البيانات، تعديل البيانات، أو حتى حذفها.</p>
+                        
+                        <div class="mb-4">
+                            <label for="sqlInput" class="block text-gray-700 font-medium mb-2">أدخل نصاً لفحصه:</label>
+                            <input type="text" id="sqlInput" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="أدخل نصاً يحتمل أن يكون ضاراً">
+                        </div>
+                        <button onclick="testSQLInjection()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                            فحص النص
+                        </button>
+                        <button onclick="insertSQLExample()" class="ml-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-6 rounded-lg transition duration-300">
+                            مثال
+                        </button>
+
+                        <div class="mt-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">نتيجة الفحص:</h3>
+                            <div id="sqlResult" class="bg-gray-100 p-4 rounded-lg min-h-20 font-mono text-gray-800">
+                                ستظهر النتيجة هنا بعد الفحص...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
