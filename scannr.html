@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQLi & XSS Test</title>
+</head>
+<body>
+    <h2>اختبار ثغرات SQL Injection و XSS عبر URL</h2>
+    <form method="GET" action="">
+        <label>أدخل اسم المستخدم:</label>
+        <input type="text" name="name">
+        <button type="submit">بحث</button>
+    </form>
+
+    <?php
+    // الاتصال بقاعدة البيانات
+    $conn = new mysqli("localhost", "root", "", "testdb");
+    if ($conn->connect_error) {
+        die("فشل الاتصال: " . $conn->connect_error);
+    }
+
+    if (isset($_GET['name'])) {
+        $name = $_GET['name'];
+
+        echo "<h3>المدخل:</h3> " . $name;
+
+        // هذا استعلام غير مؤمن (لهدف الاختبار فقط)
+        $sql = "SELECT * FROM users WHERE name = '$name'";
+        $result = $conn->query($sql);
+
+        echo "<h3>نتائج البحث:</h3>";
+        if ($result && $result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "المستخدم: " . $row["name"] . "<br>";
+            }
+        } else {
+            echo "لا يوجد نتائج.";
+        }
+    }
+    ?>
+</body>
+</html>
+
